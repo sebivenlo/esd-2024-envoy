@@ -155,6 +155,34 @@ The Google C++ gRPC client is based on the reference implementation of gRPC prov
 
 It is recommended to use the Envoy gRPC client in most cases, where the advanced features in the Google C++ gRPC client are not required. This provides configuration and monitoring simplicity. Where necessary features are missing in the Envoy gRPC client, the Google C++ gRPC client should be used instead. [8]
 
+### HTTP
+### HTTP protocols
+Envoy’s HTTP connection manager has native support for HTTP/1.1, HTTP/2 and HTTP/3, including WebSockets.
+
+Envoy’s HTTP support was designed to first and foremost be an HTTP/2 multiplexing proxy. Internally, HTTP/2 terminology is used to describe system components. For example, an HTTP request and response take place on a “stream”.
+
+A codec API is used to translate from different wire protocols into a protocol agnostic form for streams, requests, responses, etc.
+
+### HTTP lifecycle
+Proxying of the request begins when the downstream HTTP codec has successfully decoded request header map.
+
+The point at which the proxying completes and the stream is destroyed depends on the upstream protocol and whether independent half close is enabled.
+
+If independent half-close is enabled and the upstream protocol is either HTTP/2 or HTTP/3 protocols the stream is destroyed after both request and response are complete i.e. reach their respective end-of-stream, by receiving trailers or the header/body with end-stream set in both directions AND response has success (2xx) status code.
+
+For HTTP/1 upstream protocol or if independent half-close is disabled the stream is destroyed when the response is complete and reaches its end-of-stream, i.e. when trailers or the response header/body with end-stream set are received, even if the request has not yet completed. If the request was incomplete at response completion, the stream is reset.
+
+Note that proxying can stop early when an error or timeout occurred or when a peer reset HTTP/2 or HTTP/3 stream.
+
+### Route table configuration
+Each HTTP connection manager filter has an associated route table, which can be specified in one of two ways:
+
+- Statically.
+- Dynamically via the RDS API.
+
+### Timeouts
+Various configurable timeouts apply to an HTTP connection and its constituent streams. Please see this FAQ entry for an overview of important timeout configuration. [9]
+
 ## 4. Security
 ### 4.1 - What are the security implications of using a reverse proxy?
 ### 4.2 - How does Envoy handle TLS termination and mutual TLS (mTLS)?
