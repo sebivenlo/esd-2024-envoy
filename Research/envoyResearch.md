@@ -110,8 +110,50 @@ Configuring trace data destinations: In the Envoy configuration file, you can de
 Enabling tracing: To enable tracing, you can add the appropriate configuration options in the Envoy configuration file to ensure Envoy starts generating and sending trace data. [6]
 
 ### 3.5 - What is Envoy’s role in a service mesh (e.g., with Istio)?
+What is a service mesh? - It is a dedicated infrastructure layer for managing service-to-service communication within a microservices architecture. It is typically implemented using a collection of interconnected proxy servers. The service mesh provides advanced traffic management features such as service discovery, load balancing, traffic shifting, and fault tolerance, among others. Can be seen in the diagram down below: 
+![image](https://github.com/user-attachments/assets/39b83b54-5f99-46bd-8900-d9e0dec7791c)
+
+Why using a service mesh? - For a big distributed architecture with 100’s of microservices, I need to
+
+- Ensure reliable and fast communication between services
+- Have high observability on requests through these service.
+- In case of issues, being quickly able see what is failing and where
+- Easily configure and change request routes.
+- Have resilient communication practices in place, like circuit breaker , retry mechanism etc.
+
+I need to code and build logic for these in each of the microservice or just use a service mesh which provides it out of the box.
+
+Envoy's role in a service mesh. - Use case : We have a web application consisting of multiple microservices, each running in their own container.
+
+We want to provide advanced load balancing and traffic management for these microservices.We deploy Envoy as a proxy server in front of each microservice. Envoy can now be configured to: 
+
+-Handle incoming requests and route them to the appropriate microservice based on the request URL or other criteria.
+-Discover the available microservices and their addresses: Envoy can use a service registry like Consul or etcd to discover the available microservices and their addresses. Envoy periodically polls the registry to keep its service discovery information up-to-date.
+-Load balance the incoming requests across the available microservices. Envoy can use various load balancing strategies such as round-robin, least connections, or random.
+-Perform health checks on each microservice instance to ensure it is available and healthy.
+-Collect metrics on incoming requests, traffic patterns, and other performance indicators. Envoy can export these metrics to various monitoring systems like Prometheus, Datadog, or Grafana. [7]
 
 ### 3.6 - How does Envoy support communication protocols (HTTP/1.x, HTTP/2, gRPC)?
+### gRPC
+Bridging: 
+Envoy supports multiple gRPC bridges:
+
+grpc_http1_bridge filter which allows gRPC requests to be sent to Envoy over HTTP/1.1. Envoy then translates the requests to HTTP/2 or HTTP/3 for transport to the target server. The response is translated back to HTTP/1.1. When installed, the bridge filter gathers per RPC statistics in addition to the standard array of global HTTP statistics.
+
+grpc_http1_reverse_bridge filter which allows gRPC requests to be sent to Envoy and then translated to HTTP/1.1 when sent to the upstream. The response is then converted back into gRPC when sent to the downstream. This filter can also optionally manage the gRPC frame header, allowing the upstream to not have to be gRPC aware at all.
+
+connect_grpc_bridge filter which allows Connect requests to be sent to Envoy. Envoy then translates the requests to gRPC to be sent to the upstream. The response is converted back into the Connect protocol to be sent back to the downstream. HTTP/1.1 requests will be upgraded to HTTP/2 or HTTP/3 when needed.
+
+Services:
+In addition to proxying gRPC on the data plane, Envoy makes use of gRPC for its control plane, where it fetches configuration from management server(s) and in filters, such as for rate limiting or authorization checks. We refer to these as gRPC services.
+
+When specifying gRPC services, it’s necessary to specify the use of either the Envoy gRPC client or the Google C++ gRPC client. We discuss the tradeoffs in this choice below.
+
+The Envoy gRPC client is a minimal custom implementation of gRPC that makes use of Envoy’s HTTP/2 or HTTP/3 upstream connection management. Services are specified as regular Envoy clusters, with regular treatment of timeouts, retries, endpoint discovery/load balancing/failover/load reporting, circuit breaking, health checks, outlier detection. They share the same connection pooling mechanism as the Envoy data plane. Similarly, cluster statistics are available for gRPC services. Since the client is minimal, it does not include advanced gRPC features such as OAuth2 or gRPC-LB lookaside.
+
+The Google C++ gRPC client is based on the reference implementation of gRPC provided by Google at https://github.com/grpc/grpc. It provides advanced gRPC features that are missing in the Envoy gRPC client. The Google C++ gRPC client performs its own load balancing, retries, timeouts, endpoint management, etc, independent of Envoy’s cluster management. The Google C++ gRPC client also supports custom authentication plugins.
+
+It is recommended to use the Envoy gRPC client in most cases, where the advanced features in the Google C++ gRPC client are not required. This provides configuration and monitoring simplicity. Where necessary features are missing in the Envoy gRPC client, the Google C++ gRPC client should be used instead. [8]
 
 ## 4. Security
 ### 4.1 - What are the security implications of using a reverse proxy?
