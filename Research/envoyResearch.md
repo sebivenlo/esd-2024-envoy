@@ -209,9 +209,59 @@ Various configurable timeouts apply to an HTTP connection and its constituent st
 
 ## 4. Security
 ### 4.1. What are the security implications of using a reverse proxy?
-### 4.2. How does Envoy handle TLS termination and mutual TLS (mTLS)?
-### 4.3. How can Envoy enforce authentication and authorization policies?
+- Exposure of Proxy: The reverse proxy becomes a single entry point, making it a potential target for attacks like DDoS or exploitation of vulnerabilities in the proxy software.
+-Data Interception: Improper configuration of SSL/TLS can expose sensitive data, as the reverse proxy often decrypts and re-encrypts traffic.
+-Misconfiguration Risks: Errors in routing, authentication, or access control policies can lead to unauthorized access or data leaks.
+-Added Attack Surface: Features like API gateway capabilities, rate limiting, and logging can increase complexity and surface for exploitation if not secured.
+-Dependency on Proxy: If compromised, the proxy can impact all upstream services it protects or routes to.
 
+However, with envoy, the security risks are mitigated by robust support for mTLS, rate limiting, request validation, and rich observability. However, proper configuration, regular updates, and monitoring are critical to maintaining its security posture. [10]
+
+### 4.2. How does Envoy handle TLS termination and mutual TLS (mTLS)?
+What is mTLS - Mutual TLS, or mTLS for short, is a method for mutual authentication. mTLS ensures that the parties at each end of a network connection are who they claim to be by verifying that they both have the correct private key. The information within their respective TLS certificates provides additional verification. mTLS is often used in a Zero Trust security framework* to verify users, devices, and servers within an organization. [11]
+
+#### TSL termination:
+1.Incoming Connection Termination: Envoy acts as the endpoint for client connections by terminating the TLS session. This involves:
+-Decrypting traffic using the server certificate and private key.
+-Configuring TLS settings like supported protocols (e.g., TLS 1.2, 1.3) and cipher suites.
+2.Configuration: You can specify the TLS certificates and private keys in the tls_context of a listener.
+3.Re-encryption (Optional): After termination, Envoy can re-establish a secure TLS connection to the upstream service if needed.
+
+#### Mutual TLS (mLTS): 
+1.Client Authentication: Envoy supports mTLS by verifying the client certificate during the handshake process.
+2.Trust Validation:
+-Envoy uses a Certificate Authority (CA) certificate bundle to validate the client's certificate.
+-The client's certificate must meet criteria such as validity, signing authority, and (optionally) specific Subject Alternative Names (SANs).
+3.Configuration:
+-mTLS is set up using the require_client_certificate field in the listener's tls_context.
+-Trusted CA certificates are specified in the validation_context.
+[12]
+
+### 4.3. How can Envoy enforce authentication and authorization policies?
+#### Authentication in Envoy typically involves verifying the identity of a request, either by checking credentials (e.g., tokens, certificates) or integrating with an external Identity Provider (IdP).
+
+Filtering users:
+#### JWT Authentication Filter:
+-Validates JSON Web Tokens (JWT) presented in the request headers or cookies.
+-Configured to check for token validity (signature, issuer, audience, expiry, etc.).
+-Supports integration with OAuth2 and OpenID Connect workflows.
+#### mTLS Authentication:
+-Mutual TLS (mTLS) can be enforced using Envoy’s transport socket configuration.
+-Validates client certificates against a trusted Certificate Authority (CA). [13]
+
+#### Authorization: 
+#### RBAC (Role-Based Access Control) Filter:
+-Implements fine-grained access control based on roles, actions, or resource attributes.
+-Rules can use dynamic metadata from JWT claims, headers, or other sources.
+#### External Authorization Filter:
+-Delegates authorization decisions to an external service (e.g., OPA, custom authz service).
+-Communicates over gRPC to fetch allow/deny decisions based on the request context.
+
+#### Why use Envoy for Authentication and Authorization?
+-Centralized Policy Enforcement: Consistently applies policies across multiple microservices.
+-Scalability: Offloads authentication/authorization to Envoy to keep downstream services simple.
+-Extensibility: Supports custom logic via external authorization services.
+-Compliance: Ensures compliance with security and access policies.
 
 ## 5. Configuration & Deployment
 ### 5.1. How is Envoy typically deployed (sidecar pattern, standalone)?
@@ -222,4 +272,5 @@ Various configurable timeouts apply to an HTTP connection and its constituent st
 
 ## 6. Performance and Optimization
 ### 6.1. What are the performance considerations when using Envoy in a high-traffic environment?
+
 ### 6.2. How does Envoy’s performance compare to other reverse proxies in terms of latency and throughput?
