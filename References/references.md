@@ -13,5 +13,8 @@
 - [11] https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/
 - [12] https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/security/ssl
 - [13] https://gateway.envoyproxy.io/docs/tasks/security/backend-mtls/
+- [14] https://github.com/envoyproxy/envoy/issues/19946
+- [15] https://schierco.nyc3.digitaloceanspaces.com/other/perf.svg
+- [16] https://www.loggly.com/blog/benchmarking-5-popular-load-balancers-nginx-haproxy-envoy-traefik-and-alb/
 - [31] https://www.atlassian.com/microservices/cloud-computing/advantages-of-microservices
 - [32] https://www.baeldung.com/cs/service-discovery-microservices
