@@ -18,3 +18,10 @@
 - [16] https://www.loggly.com/blog/benchmarking-5-popular-load-balancers-nginx-haproxy-envoy-traefik-and-alb/
 - [31] https://www.atlassian.com/microservices/cloud-computing/advantages-of-microservices
 - [32] https://www.baeldung.com/cs/service-discovery-microservices
+- [33] https://www.baeldung.com/cs/http-versions
+- [34] https://www.digitalocean.com/community/tutorials/http-1-1-vs-http-2-what-s-the-difference
+- [35] https://www.haproxy.com/blog/layer-4-and-layer-7-proxy-mode
+- [36] https://www.envoyproxy.io/docs/envoy/v1.31.1/intro/what_is_envoy
+- [37] https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers
+- [38] https://gateway.envoyproxy.io/docs/tasks/traffic/load-balancing/
+- [39] https://www.kubecost.com/kubernetes-devops-tools/traefik-vs-nginx/
