@@ -12,8 +12,28 @@ In this section, important research questions will be asked and answered. This w
 - What is network balancing, and when and how is it used?
 
 ## 1. Microservices & Networking
-### 1.1. What are the advantages and challenges of microservice architectures?
-Using microservices frameworks results in more scalable, flexible, and easier-to-maintain systems. Disadvantages include increased design complexity, debugging difficulties, testing complexity and deployment difficulties.
+### 1.1. What are the advantages and disadvantages of the microservices architecture?
+Microservices architecture is an approach to system design that breaks complex systems into more minor, more manageable services. Using microservices frameworks results in more scalable, flexible, and easier-to-maintain systems. Applications built using this architecture consist of small, independently deployable services that communicate with each other through APIs. By breaking down complex systems into more minor services, microservices architecture provides improved scalability, flexibility, and maintenance simplicity.
+
+#### Advantages
+
+**1. Accelerate scalability**: DevOps teams seamlessly introduce new components without causing any downtime, thanks to the independent operation of each service within the microservices architecture. They can choose each service's best language or technology without compatibility concerns. Deploying services across multiple servers can mitigate the performance impact of individual components and help companies avoid vendor lock-in.
+**2. Improve fault isolation**: Microservices architecture is compartmentalized — if one service encounters a fault or failure, it doesn’t propagate across the entire system.
+**3. Enhance team productivity**: Microservices architecture allows small, focused teams to concentrate on a particular service’s development, deployment, and maintenance without being burdened by the complexities of the entire system. Microservices architecture fosters a sense of ownership and expertise within teams, enabling specialized team members to make informed decisions, iterate quickly, and maintain a high quality of service within their domain.
+**4. Quicker deployment time**: In monolithic architectures, changing necessitates redeploying the entire application. Microservices architecture enables faster releases because each service evolves and deploys independently, reducing the risk and time associated with coordinating changes across an entire application. Decoupling services in this manner enhances agility. You can swiftly roll out updates or fixes with minimal disruption to the overall system.
+**5. Increase Cost-efficiency**: Microservices architecture optimizes resource allocation and maintenance because teams work on small, well-defined services. Efforts are localized to specific services, reducing overall development and system maintenance costs. Teams focus on specific functionality, ensuring resources are used efficiently without redundancy or excess capacity.
+
+
+#### Disadvantages
+
+**1. Increased complexity**: Because microservices are distributed, managing service communication can be challenging. Developers may have to write extra code to ensure smooth communication between modules.
+**2. Deployment and versioning challenges**: Coordinating deployments and managing version control across multiple services can be complex, leading to compatibility issues.
+**3. Testing complexity**: Testing microservices involves complex scenarios, mainly when conducting integration testing across various services. Orchestrating this task can be challenging.
+**4. Debugging difficulties**: It can be demanding to debug an application that contains multiple microservices, each with its own set of logs. A single business process can run across multiple machines simultaneously, compounding complexity.
+**5. Data management challenges**: Data consistency and transactions across multiple services can be complex. Microservices architecture calls for careful data management and coordination to support data integrity.
+
+![Microservices Architecture](../Workshop%20materials/Presentation/Resources/Microservice_Architecture.png)
+
 ### 1.2. How do microservices communicate with each other (e.g., HTTP, gRPC, TCP)?
 - **HTTP/1.1**: HTTP is a top-level application protocol that exchanges information between a client computer and a local or remote web server. In this process, a client sends a text-based request to a server by calling a method like GET or POST. In response, the server sends a resource like an HTML page back to the client. HTTP/1.1, introduced in 1997, enhanced the original HTTP protocol by enabling persistent connections, allowing multiple requests and responses over a single connection, and introducing chunked transfer encoding to support dynamically generated content.
 - **HTTP/2**: HTTP/2, standardized in 2015, brought significant performance improvements through features like multiplexing, which allows multiple requests and responses to be sent concurrently over a single connection, reducing latency and improving page load times. Additionally, HTTP/2 uses a binary protocol instead of the textual format of HTTP/1.1, enhancing parsing efficiency and robustness. It also introduced header compression to decrease overhead and server push capabilities to proactively send resources to clients before they are requested.<a>[33]</a> From a technical point of view, one of the most significant features that distinguishes HTTP/1.1 and HTTP/2 is the binary framing layer, which can be thought of as a part of the application layer in the internet protocol stack. As opposed to HTTP/1.1, which keeps all requests and responses in plain text format, HTTP/2 uses the binary framing layer to encapsulate all messages in binary format, while still maintaining HTTP semantics, such as verbs, methods, and headers. An application level API would still create messages in the conventional HTTP formats, but the underlying layer would then convert these messages into binary. This ensures that web applications created before HTTP/2 can continue functioning as normal when interacting with the new protocol. The conversion of messages into binary allows HTTP/2 to try new approaches to data delivery not available in HTTP/1.1, a contrast that is at the root of the practical differences between the two protocols.<a>[34]</a>
@@ -33,7 +53,10 @@ The most common method is of course RESTful APIs using HTTP/1.1, but many modern
 ### 1.4. How does service-to-service authentication work in microservices?
 - Service-to-Service Authentication is critical in microservice architectures to ensure secure communication between services and prevent unauthorized access.
 - Envoy provides multiple ways to secure services, which include TLS/mTLS, JWT, OAuth2 and custom authorization filters.
-- mTLS (Mutual TLS): Both client and server present certificates to authenticate each other. TLS encrypts communication after authentication.
+- mTLS (Mutual TLS): Mutual TLS, or mTLS for short, is a method for mutual authentication. mTLS ensures that the parties at each end of a network connection are who they claim to be by verifying that they both have the correct private key. The information within their respective TLS certificates provides additional verification. mTLS is often used in a Zero Trust security framework* to verify users, devices, and servers within an organization. It can also help keep APIs secure<.
+
+*Zero Trust means that no user, device, or network traffic is trusted by default, an approach that helps eliminate many security vulnerabilities.
+![mTSL](../Workshop%20materials/Presentation/Resources/mTSL.png)
 - JWTs: Services include a JSON Web Token (JWT) in their requests. Envoy validates the JWT signature and claims using a public key or a JWKS endpoint.
 - Custom filters: Envoy allows custom gRPC-based authorization checks to be performed before forwarding requests to the upstream service. This is useful for applying business-specific authentication logic.
 
@@ -55,6 +78,7 @@ Additionally, Layer 7 proxies integrate with service discovery systems, dynamica
 
 #### Load Balancing
 Load balancing is the process of distributing network traffic across multiple backend servers to ensure reliability, scalability, and optimal utilization of resources. In a microservices architecture, it is essential because services often need to handle large volumes of traffic while maintaining low latency and high availability. Multiple instances of the same microservice are deployed to manage this load, and a load balancer ensures that requests are evenly distributed among them. Envoy, as a modern proxy, supports several load-balancing strategies tailored for various use cases, including round-robin, least-request, random, ring hashing, Maglev, and weighted load balancing.
+![Load Balancing](../Workshop%20materials/Presentation/Resources/Load-Balancing.jpg)
 
 #### Load Balancing Strategies
 

@@ -25,3 +25,6 @@
 - [37] https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/load_balancers
 - [38] https://gateway.envoyproxy.io/docs/tasks/traffic/load-balancing/
 - [39] https://www.kubecost.com/kubernetes-devops-tools/traefik-vs-nginx/
+- [40] https://nds.id/en/load-balancing-en/
+- [41] https://www.cloudflare.com/learning/access-management/what-is-mutual-tls/
+- [42] https://microservices.io/patterns/microservices.html
