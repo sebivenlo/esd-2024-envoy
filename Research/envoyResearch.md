@@ -330,7 +330,7 @@ Filtering users:
 ### 5.4. How does Envoy integrate with orchestration systems like Kubernetes?
 
 
-## 6. Performance and Optimization
+## 6. Performance & Optimization
 ### 6.1. What are the performance considerations when using Envoy in a high-traffic environment?
 #### Best practices for benchmarking Envoy: 
 There is no single QPS, latency or throughput overhead that can characterize a network proxy such as Envoy. Instead, any measurements need to be contextually aware, ensuring an apples-to-apples comparison with other systems by configuring and load testing Envoy appropriately. As a result, we can’t provide a canonical benchmark configuration, but instead offer the following guidance:
