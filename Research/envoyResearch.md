@@ -105,6 +105,8 @@ Amazon Application Load Balancer (ALB), while not a full proxy in the traditiona
 
 Each solution addresses specific needs, with Envoy and Traefik excelling in microservice and cloud-native setups, HAProxy and NGINX offering performance and flexibility for traditional workloads, and ALB providing a managed, cloud-centric option for AWS users.
 
+![ProXy Comparison Table](../Workshop%20materials/Presentation/Resources/Proxy%20Comparison.png)
+
 ## 3. Envoy-Specific Concepts
 ### 3.1. What is Envoy, and what problems does it solve in a microservice architecture?
 Envoy Proxy is a modern, open-source, high performance, small footprint edge and service proxy. Envoy is most comparable to software load balancers such as NGINX and HAProxy. It is built to handle the complex networking challenges of modern microservice-based architectures. Originally written and deployed at Lyft, Envoy now has a vibrant contributor base and is an official Cloud Native Computing Foundation (CNCF) project. [1] CNCF - CNCF is the open source, vendor-neutral hub of cloud native computing, hosting projects like Kubernetes and Prometheus to make cloud native universal and sustainable. [2]
