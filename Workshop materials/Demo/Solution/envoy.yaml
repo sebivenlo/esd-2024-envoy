@@ -1,0 +1,99 @@
+static_resources:
+  listeners:
+    - name: demo_app_listener
+      address:
+        socket_address: { address: 0.0.0.0, port_value: 8080 }
+      filter_chains:
+        filters:
+          - name: envoy.filters.network.http_connection_manager
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+              stat_prefix: ingress_http # try http_proxy
+              route_config:
+                name: local_route
+                virtual_hosts:
+                  - name: local_services
+                    domains: ["*"]
+                    routes:                      
+                      # Route to Account Service
+                      - match: { prefix: "/account" }
+                        route: 
+                          cluster: account_service
+                          prefix_rewrite: "/"
+
+                      # Route to Product Service
+                      - match: { prefix: "/product" }
+                        route:
+                          cluster: product_service
+                          prefix_rewrite: "/"
+
+                      # Route to Order Service (Load Balanced)
+                      - match: { prefix: "/orders" }
+                        route:
+                          cluster: order_service
+                          prefix_rewrite: "/"
+
+                      # Route to Frontend Service
+                      - match: { prefix: "/" }
+                        route:
+                          cluster: frontend_service
+                          prefix_rewrite: "/"
+
+              http_filters:
+                - name: envoy.filters.http.router
+                  typed_config:
+                    "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+  clusters:
+    # Cluster for Frontend Service
+    - name: frontend_service
+      connect_timeout: 0.25s
+      type: STRICT_DNS
+      load_assignment:
+        cluster_name: frontend_service
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address: { address: frontend-service, port_value: 3000 }
+    
+    # Cluster for Account Service
+    - name: account_service
+      connect_timeout: 0.25s
+      type: STRICT_DNS
+      load_assignment:
+        cluster_name: account_service
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address: { address: account-service, port_value: 3001 }
+
+    # Cluster for Product Service
+    - name: product_service
+      connect_timeout: 0.25s
+      type: STRICT_DNS
+      load_assignment:
+        cluster_name: product_service
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address: { address: product-service, port_value: 3002 }
+
+    # Cluster for Order Service (Load Balanced)
+    - name: order_service
+      connect_timeout: 0.25s
+      type: STRICT_DNS
+      lb_policy: ROUND_ROBIN
+      load_assignment:
+        cluster_name: order_service
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address: { address: order-service.service.consul, port_value: 3003 }
+
+admin:
+  access_log_path: "/dev/null"
+  address:
+    socket_address: { address: 0.0.0.0, port_value: 9901 }

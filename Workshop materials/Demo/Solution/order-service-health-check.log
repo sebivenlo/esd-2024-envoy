@@ -1,0 +1,13 @@
+{"health_checker_type":"HTTP","host":{"socket_address":{"protocol":"TCP","address":"172.18.0.6","resolver_name":"","ipv4_compat":false,"port_value":3005}},"cluster_name":"order_service","add_healthy_event":{"first_check":true},"timestamp":"2025-01-05T20:11:00.723Z"}
+{"health_checker_type":"HTTP","host":{"socket_address":{"protocol":"TCP","address":"172.18.0.7","resolver_name":"","ipv4_compat":false,"port_value":3004}},"cluster_name":"order_service","add_healthy_event":{"first_check":true},"timestamp":"2025-01-05T20:11:00.727Z"}
+{"health_checker_type":"HTTP","host":{"socket_address":{"protocol":"TCP","address":"172.18.0.3","resolver_name":"","ipv4_compat":false,"port_value":3003}},"cluster_name":"order_service","add_healthy_event":{"first_check":true},"timestamp":"2025-01-05T20:11:00.727Z"}
+{"health_checker_type":"HTTP","host":{"socket_address":{"protocol":"TCP","address":"172.18.0.7","resolver_name":"","ipv4_compat":false,"port_value":3004}},"cluster_name":"order_service","eject_unhealthy_event":{"failure_type":"NETWORK_TIMEOUT"},"timestamp":"2025-01-05T20:27:22.879Z"}
+{"health_checker_type":"HTTP","host":{"socket_address":{"protocol":"TCP","address":"172.18.0.7","resolver_name":"","ipv4_compat":false,"port_value":3004}},"cluster_name":"order_service","add_healthy_event":{"first_check":true},"timestamp":"2025-01-05T20:29:28.883Z"}
+
+Assignment 1: L4 Envoy Proxy
+Assignment 2: L7 Envoy Proxy: Basic Setup
+Assignment 3: Envoy with Consul Service Discovery
+Assignment 4: Advanced Routing with Envoy Proxy
+Assignment 5: Envoy Proxy with Rate Limiting and Circuit Breaking
+Assignment 6: Envoy Proxy and logging
+Assignment 7: Envoy Proxy with mTLS

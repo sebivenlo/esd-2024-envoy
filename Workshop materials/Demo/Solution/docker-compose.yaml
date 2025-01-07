@@ -1,0 +1,82 @@
+# version: '3.8'
+
+services:
+
+#? Adds Consul for Service Discovery
+  consul:
+    image: consul:1.15.3
+    container_name: consul
+    command: "agent -dev -client=0.0.0.0 -ui"
+    ports:
+      - "8500:8500"  # Consul UI
+      - "8600:8600/udp"  # DNS Interface
+
+  frontend-service:
+    build:
+      context: ./dummy-service
+    container_name: frontend-service
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - SERVICE_NAME=frontend-service
+
+  account-service:
+    build:
+      context: ./dummy-service
+    container_name: account-service
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - SERVICE_NAME=account-service
+
+  product-service:
+    build:
+      context: ./dummy-service
+    container_name: product-service
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - SERVICE_NAME=product-service
+
+  order-service:
+    build:
+      context: ./order-service
+    # networks:
+    #   - default
+    deploy:
+      replicas: 4  # Spin up X instances of the order-service container
+    ports:
+      - "0:3003"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    depends_on:
+      - consul
+
+
+  envoy:
+    container_name: Envoy
+    image: envoyproxy/envoy:v1.26.0
+    user: "0:0"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+      - ./order-service-health-check.log:/var/log/envoy/order-service-health-check.log
+    ports:
+      - "8080:8080"  # Expose Envoy's listener
+      - "9901:9901"  # Admin interface
+    dns:
+      - 127.0.0.11
+    dns_search:
+      - consul
+    depends_on:
+      - frontend-service
+      - account-service
+      - product-service
+      - order-service
+      - consul
+
+name: envoy_demo
