@@ -6,11 +6,7 @@ static_resources:
           port_value: 8080
       filter_chains:
         - filters:
-          - name: envoy.filters.network.tcp_proxy
-            typed_config: 
-              '@type': "type.googleapis.com/envoy.extensions.filters.network.tcp_proxy.v3.TcpProxy"
-              stat_prefix: tcp_proxy
-              cluster: service_replica_cluster
+          # Add the filter here as shown in the instructions.
   
   clusters:
     - name: service_replica_cluster
@@ -21,26 +17,10 @@ static_resources:
         cluster_name: service_replica_cluster
         endpoints:
           - lb_endpoints:
-            - endpoint:
-                address:
-                  socket_address:
-                    address: dummy-service-replica-1
-                    port_value: 3000
-            
-            - endpoint:
-                address:
-                  socket_address:
-                    address: dummy-service-replica-2
-                    port_value: 3001
-                  
-            - endpoint:
-                address:
-                  socket_address:
-                    address: dummy-service-replica-3
-                    port_value: 3002
+          # Add the endpoint and the socket address for service 1.
 
-            - endpoint:
-                address:
-                  socket_address:
-                    address: dummy-service-replica-4
-                    port_value: 3003
+          # Add the endpoint and the socket address for service 2.
+                    
+          # Add the endpoint and the socket address for service 3.
+
+          # Add the endpoint and the socket address for service 4.

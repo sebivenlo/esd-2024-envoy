@@ -3,66 +3,66 @@ version: '3.8'
 services:
   frontend-service:
     build:
-      context: ./frontend-service
-    container_name: frontend-service
+      context: ../../Resources/dummy-service
+    container_name: a2-frontend-service
     ports:
       - "3000:3000"
     environment:
       - PORT=3000
-      - TYPE=Frontend
+      - SERVICE_NAME=frontend-service
 
   account-service:
     build:
-      context: ./account-service
-    container_name: account-service
+      context: ../../Resources/dummy-service
+    container_name: a2-account-service
     ports:
       - "3001:3001"
     environment:
       - PORT=3001
-      - TYPE=Account
+      - SERVICE_NAME=Account
 
   product-service:
     build:
-      context: ./product-service
-    container_name: product-service
+      context: ../../Resources/dummy-service
+    container_name: a2-product-service
     ports:
       - "3002:3002"
     environment:
       - PORT=3002
-      - TYPE=Product
+      - SERVICE_NAME=Product
 
   order-service-1:
     build:
-      context: ./order-service
-    container_name: order-service-1
+      context: ../../Resources/dummy-service
+    container_name: a2-order-service-1
     ports:
       - "3003:3003"
     environment:
       - PORT=3003
-      - TYPE=Order 1
+      - SERVICE_NAME=Order 1
 
   order-service-2:
     build:
-      context: ./order-service
-    container_name: order-service-2
+      context: ../../Resources/dummy-service
+    container_name: a2-order-service-2
     ports:
-      - "3004:3004"
+      - "3103:3003"
     environment:
-      - PORT=3004
-      - TYPE=Order 2
+      - PORT=3103
+      - SERVICE_NAME=Order 2
 
   order-service-3:
     build:
-      context: ./order-service
-    container_name: order-service-3
+      context: ../../Resources/dummy-service
+    container_name: a2-order-service-3
     ports:
-      - "3005:3005"
+      - "3203:3003"
     environment:
-      - PORT=3005
-      - TYPE=Order 3
+      - PORT=3203
+      - SERVICE_NAME=Order 3
 
   envoy:
-    container_name: Envoy
+    container_name: a2-Envoy
     image: envoyproxy/envoy:v1.26.0
     user: "0:0"
     volumes:
@@ -79,4 +79,4 @@ services:
       - order-service-2
       - order-service-3
 
-name: envoy_demo
+name: envoy_demo_assignment_2
