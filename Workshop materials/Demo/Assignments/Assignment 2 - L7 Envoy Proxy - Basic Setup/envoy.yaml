@@ -8,41 +8,24 @@ static_resources:
           - name: envoy.filters.network.http_connection_manager
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-              stat_prefix: ingress_http # try http_proxy
+              stat_prefix: ingress_http
               route_config:
                 name: local_route
                 virtual_hosts:
                   - name: local_services
                     domains: ["*"]
-                    routes:                      
-                      # Route to Account Service
-                      - match: { prefix: "/account" }
-                        route: 
-                          cluster: account_service
-                          prefix_rewrite: "/"
+                    routes:        
+                    # Create the different routes.      
+                      # Route to Account Service.
 
-                      # Route to Product Service
-                      - match: { prefix: "/product" }
-                        route:
-                          cluster: product_service
-                          prefix_rewrite: "/"
+                      # Route to Product Service.
 
-                      # Route to Order Service (Load Balanced)
-                      - match: { prefix: "/orders" }
-                        route:
-                          cluster: order_service
-                          prefix_rewrite: "/"
+                      # Route to Order Service (Load Balanced).
 
-                      # Route to Frontend Service
-                      - match: { prefix: "/" }
-                        route:
-                          cluster: frontend_service
-                          prefix_rewrite: "/"
+                      # Route to Frontend Service.
 
-              http_filters:
-                - name: envoy.filters.http.router
-                  typed_config:
-                    "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+              # Add the http filters
+
   clusters:
     # Cluster for Frontend Service
     - name: frontend_service
@@ -85,14 +68,6 @@ static_resources:
       connect_timeout: 0.25s
       type: STRICT_DNS
       lb_policy: ROUND_ROBIN
-      health_checks:
-        - timeout: 2s
-          interval: 10s
-          unhealthy_threshold: 1
-          healthy_threshold: 3
-          event_log_path: "/var/log/envoy/order-service-health-check.log"
-          http_health_check:
-            path: "/health"
       load_assignment:
         cluster_name: order_service
         endpoints:
@@ -106,8 +81,3 @@ static_resources:
               - endpoint:
                   address:
                     socket_address: { address: order-service-3, port_value: 3203 }
-
-admin:
-  access_log_path: "/dev/null"
-  address:
-    socket_address: { address: 0.0.0.0, port_value: 9901 }

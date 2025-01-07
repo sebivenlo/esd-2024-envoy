@@ -8,7 +8,7 @@ static_resources:
           - name: envoy.filters.network.http_connection_manager
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
-              stat_prefix: ingress_http
+              stat_prefix: ingress_http # try http_proxy
               route_config:
                 name: local_route
                 virtual_hosts:
@@ -27,7 +27,7 @@ static_resources:
                           cluster: product_service
                           prefix_rewrite: "/"
 
-                      # Route to Order Service
+                      # Route to Order Service (Load Balanced)
                       - match: { prefix: "/orders" }
                         route:
                           cluster: order_service
@@ -43,30 +43,19 @@ static_resources:
                 - name: envoy.filters.http.router
                   typed_config:
                     "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
-
   clusters:
     # Cluster for Frontend Service
     - name: frontend_service
       connect_timeout: 0.25s
       type: STRICT_DNS
-      lb_policy: ROUND_ROBIN
       load_assignment:
         cluster_name: frontend_service
         endpoints:
           - lb_endpoints:
               - endpoint:
                   address:
-                    socket_address: { address: frontend_v1, port_value: 3000 }
-                load_balancing_weight: { value: 50 }
-              - endpoint:
-                  address:
-                    socket_address: { address: frontend_v2, port_value: 3100 }
-                load_balancing_weight: { value: 30 }
-              - endpoint:
-                  address:
-                    socket_address: { address: frontend_v3, port_value: 3200 }
-                load_balancing_weight: { value: 20 }
-
+                    socket_address: { address: frontend-service, port_value: 3000 }
+    
     # Cluster for Account Service
     - name: account_service
       connect_timeout: 0.25s
@@ -88,22 +77,15 @@ static_resources:
         endpoints:
           - lb_endpoints:
               - endpoint:
-                    address:
-                      socket_address: { address: product-service, port_value: 3002 }
+                  address:
+                    socket_address: { address: product-service, port_value: 3002 }
 
     # Cluster for Order Service (Load Balanced)
     - name: order_service
       connect_timeout: 0.25s
       type: STRICT_DNS
       lb_policy: ROUND_ROBIN
-      health_checks:
-        - timeout: 2s
-          interval: 10s
-          unhealthy_threshold: 1
-          healthy_threshold: 3
-          event_log_path: "/var/log/envoy/order-service-health-check.log"
-          http_health_check:
-            path: "/health"
+      # Add the health checks here
       load_assignment:
         cluster_name: order_service
         endpoints:
@@ -118,7 +100,4 @@ static_resources:
                   address:
                     socket_address: { address: order-service-3, port_value: 3203 }
 
-admin:
-  access_log_path: "/dev/null"
-  address:
-    socket_address: { address: 0.0.0.0, port_value: 9901 }
+# Add the admin interface

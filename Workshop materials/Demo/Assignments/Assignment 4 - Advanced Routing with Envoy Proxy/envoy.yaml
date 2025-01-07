@@ -54,19 +54,9 @@ static_resources:
         cluster_name: frontend_service
         endpoints:
           - lb_endpoints:
-              - endpoint:
-                  address:
-                    socket_address: { address: frontend_v1, port_value: 3000 }
-                load_balancing_weight: { value: 50 }
-              - endpoint:
-                  address:
-                    socket_address: { address: frontend_v2, port_value: 3100 }
-                load_balancing_weight: { value: 30 }
-              - endpoint:
-                  address:
-                    socket_address: { address: frontend_v3, port_value: 3200 }
-                load_balancing_weight: { value: 20 }
-
+              # Create three differen endpoints with different weight balancing, for the routing
+             
+             
     # Cluster for Account Service
     - name: account_service
       connect_timeout: 0.25s
@@ -117,8 +107,3 @@ static_resources:
               - endpoint:
                   address:
                     socket_address: { address: order-service-3, port_value: 3203 }
-
-admin:
-  access_log_path: "/dev/null"
-  address:
-    socket_address: { address: 0.0.0.0, port_value: 9901 }
