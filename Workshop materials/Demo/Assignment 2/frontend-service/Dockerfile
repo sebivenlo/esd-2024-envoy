@@ -11,7 +11,10 @@ RUN npm install
 # Copy the rest of the application
 COPY . .
 
-# Expose the application port (placeholder, overridden in compose)
+# Set an environment variable for the service type (default to frontend)
+ENV TYPE=frontend_service
+
+# Expose the application port
 EXPOSE 3000
 
 # Start the service

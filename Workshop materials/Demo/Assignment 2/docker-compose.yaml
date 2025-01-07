@@ -1,24 +1,44 @@
 version: '3.8'
 
 services:
-  frontend-service:
+  frontend_v1:
     build:
       context: ./frontend-service
-    container_name: frontend-service
+    container_name: frontend_v1
     ports:
       - "3000:3000"
     environment:
       - PORT=3000
-      - TYPE=Frontend
+      - TYPE=frontend_v1
+
+  frontend_v2:
+    build:
+      context: ./frontend-service
+    container_name: frontend_v2
+    ports:
+      - "3001:3000"
+    environment:
+      - PORT=3000
+      - TYPE=frontend_v2
+
+  frontend_v3:
+    build:
+      context: ./frontend-service
+    container_name: frontend_v3
+    ports:
+      - "3002:3000"
+    environment:
+      - PORT=3000
+      - TYPE=frontend_v3
 
   account-service:
     build:
       context: ./account-service
     container_name: account-service
     ports:
-      - "3001:3001"
+      - "3003:3003"
     environment:
-      - PORT=3001
+      - PORT=3003
       - TYPE=Account
 
   product-service:
@@ -26,9 +46,9 @@ services:
       context: ./product-service
     container_name: product-service
     ports:
-      - "3002:3002"
+      - "3004:3004"
     environment:
-      - PORT=3002
+      - PORT=3004
       - TYPE=Product
 
   order-service-1:
@@ -36,9 +56,9 @@ services:
       context: ./order-service
     container_name: order-service-1
     ports:
-      - "3003:3003"
+      - "3005:3005"
     environment:
-      - PORT=3003
+      - PORT=3005
       - TYPE=Order 1
 
   order-service-2:
@@ -46,9 +66,9 @@ services:
       context: ./order-service
     container_name: order-service-2
     ports:
-      - "3004:3004"
+      - "3006:3006"
     environment:
-      - PORT=3004
+      - PORT=3006
       - TYPE=Order 2
 
   order-service-3:
@@ -56,9 +76,9 @@ services:
       context: ./order-service
     container_name: order-service-3
     ports:
-      - "3005:3005"
+      - "3007:3007"
     environment:
-      - PORT=3005
+      - PORT=3007
       - TYPE=Order 3
 
   envoy:
@@ -72,7 +92,9 @@ services:
       - "8080:8080"  # Expose Envoy's listener
       - "9901:9901"  # Admin interface (optional for debugging)
     depends_on:
-      - frontend-service
+      - frontend_v1
+      - frontend_v2
+      - frontend_v3
       - account-service
       - product-service
       - order-service-1
