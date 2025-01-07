@@ -1,0 +1,82 @@
+version: '3.8'
+
+services:
+  frontend-service:
+    build:
+      context: ../../Resources/dummy-service
+    container_name: a2-frontend-service
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - SERVICE_NAME=frontend-service
+
+  account-service:
+    build:
+      context: ../../Resources/dummy-service
+    container_name: a2-account-service
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - SERVICE_NAME=Account
+
+  product-service:
+    build:
+      context: ../../Resources/dummy-service
+    container_name: a2-product-service
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - SERVICE_NAME=Product
+
+  order-service-1:
+    build:
+      context: ../../Resources/order-service
+    container_name: a2-order-service-1
+    ports:
+      - "3003:3003"
+    environment:
+      - PORT=3003
+      - SERVICE_NAME=Order 1
+
+  order-service-2:
+    build:
+      context: ../../Resources/order-service
+    container_name: a2-order-service-2
+    ports:
+      - "3103:3003"
+    environment:
+      - PORT=3103
+      - SERVICE_NAME=Order 2
+
+  order-service-3:
+    build:
+      context: ../../Resources/order-service
+    container_name: a2-order-service-3
+    ports:
+      - "3203:3003"
+    environment:
+      - PORT=3203
+      - SERVICE_NAME=Order 3
+
+  envoy:
+    container_name: a2-Envoy
+    image: envoyproxy/envoy:v1.26.0
+    user: "0:0"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+      - ./order-service-health-check.log:/var/log/envoy/order-service-health-check.log
+    ports:
+      - "8080:8080"  # Expose Envoy's listener
+      - "9901:9901"  # Admin interface (optional for debugging)
+    depends_on:
+      - frontend-service
+      - account-service
+      - product-service
+      - order-service-1
+      - order-service-2
+      - order-service-3
+
+name: envoy_demo_assignment_2
