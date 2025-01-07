@@ -43,7 +43,19 @@ static_resources:
                 - name: envoy.filters.http.router
                   typed_config:
                     "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
-
+          transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
+              common_tls_context:
+                tls_certificates:
+                  - certificate_chain: { filename: "/etc/envoy/certs/server.crt" }
+                    private_key: { filename: "/etc/envoy/certs/server.key" }
+                validation_context:
+                  trusted_ca: { filename: "/etc/envoy/certs/rootCA.crt" }
+                alpn_protocols: "h2,http/1.1"
+                tls_params:
+                  tls_minimum_protocol_version: TLSv1_2
   clusters:
     # Cluster for Frontend Service
     - name: frontend_service

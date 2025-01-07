@@ -88,7 +88,7 @@ services:
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
       - ./order-service-health-check.log:/var/log/envoy/order-service-health-check.log
-      - ./account-service/Certificates:/etc/envoy/certs # Mount the Certificates directory for mTLS
+      - ./Certificates:/etc/envoy/certs # Mount the Certificates directory for mTLS
     ports:
       - "8080:8080"  # Expose Envoy's listener
       - "9901:9901"  # Admin interface (optional for debugging)
