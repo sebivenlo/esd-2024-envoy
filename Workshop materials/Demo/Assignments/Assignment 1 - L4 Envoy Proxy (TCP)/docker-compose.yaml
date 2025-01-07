@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  dummy-service-replica-1:
+    build:
+      context: ../../Resources/dummy-service
+    container_name: dummy-service-replica-1
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - SERVICE_NAME=dummy-service-replica-1
+      
+  dummy-service-replica-2:
+    build:
+      context: ../../Resources/dummy-service
+    container_name: dummy-service-replica-2
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - SERVICE_NAME=dummy-service-replica-2
+
+  dummy-service-replica-3:
+    build:
+      context: ../../Resources/dummy-service
+    container_name: dummy-service-replica-3
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - SERVICE_NAME=dummy-service-replica-3
+      
+  dummy-service-replica-4:
+    build:
+      context: ../../Resources/dummy-service
+    container_name: dummy-service-replica-4
+    ports:
+      - "3003:3003"
+    environment:
+      - PORT=3003
+      - SERVICE_NAME=dummy-service-replica-4
+
+  envoy:
+    container_name: Envoy
+    image: envoyproxy/envoy:v1.26.0
+    user: "0:0"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+      - ./order-service-health-check.log:/var/log/envoy/order-service-health-check.log
+    ports:
+      - "8080:8080"  # Expose Envoy's listener
+      - "9901:9901"  # Admin interface (optional for debugging)
+    depends_on:
+      - dummy-service-replica-1
+      - dummy-service-replica-2
+      - dummy-service-replica-3
+      - dummy-service-replica-4
+
+name: envoy_demo_assignment_1

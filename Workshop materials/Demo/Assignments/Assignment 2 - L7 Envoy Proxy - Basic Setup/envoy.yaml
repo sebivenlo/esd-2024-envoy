@@ -102,10 +102,10 @@ static_resources:
                     socket_address: { address: order-service-1, port_value: 3003 }
               - endpoint:
                   address:
-                    socket_address: { address: order-service-2, port_value: 3004 }
+                    socket_address: { address: order-service-2, port_value: 3103 }
               - endpoint:
                   address:
-                    socket_address: { address: order-service-3, port_value: 3005 }
+                    socket_address: { address: order-service-3, port_value: 3203 }
 
 admin:
   access_log_path: "/dev/null"
