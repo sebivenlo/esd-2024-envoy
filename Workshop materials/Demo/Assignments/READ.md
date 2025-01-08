@@ -1,4 +1,4 @@
-![alt text](image.png)
+![Envoy logo](../Resources/images/logo.png)
 
 <p style="text-align: center; font-size: 50px;">ENVOY</p>
 

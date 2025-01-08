@@ -7,7 +7,7 @@ https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/tra
 
 Example of Multivariate testing
 
-![alt text](image-1.png)
+![Multivariate testing example.](../../Resources/images/multivariate_testing.png)
 
 #### Step 1
 Specify the socket adreess values as well as the values of the routing weight.
