@@ -1,5 +1,7 @@
 # Assignment 1 - Instructions
 
+Please make sure that your are following the general instructions of this workshop! - https://github.com/sebivenlo/esd-2024-envoy/blob/main/Workshop%20materials/Demo/Assignments/READ.md
+
 ### Configure the filter for a Layer 4 proxy
 
 Link to Envoy's documentation about TCP Proxy - 
@@ -14,7 +16,7 @@ Specify the name of the filter you want to use. In the case of a Layer 4 proxing
 Specify the type of your config. This icludes, "@type", "stat_prefix" and "cluster".
 
 #### HINT
-A code snippet of the almost ready filter! ALMOST!!!
+A code snippet of the almost completed filter! ALMOST!!!
 
 ```yaml
 - name: envoy.filters.network.tcp_proxy

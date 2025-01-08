@@ -1,4 +1,6 @@
-# Assignment 4 - Instructions
+# Assignment 3 - Instructions
+
+Please make sure that your are following the general instructions of this workshop! - https://github.com/sebivenlo/esd-2024-envoy/blob/main/Workshop%20materials/Demo/Assignments/READ.md
 
 Link to Envoy's documentation about Traffic Shifting/Splitting - 
 https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/traffic_splitting
@@ -12,7 +14,6 @@ Example of Multivariate testing
 #### Step 1
 Specify the socket adreess values as well as the values of the routing weight.
 
-#### Step 2
 Example structure which needs to be followed:
 ```yaml
               - endpoint:
@@ -20,6 +21,9 @@ Example structure which needs to be followed:
                     socket_address: { address: ADDRESS, port_value: PORT_VALUE }
                 load_balancing_weight: { value: VALUE }
 ```
+
+#### Step 2
+Change the values to the appropriate ones
 
 #### HINT
 This is the full code snippet that is missing, of course with dummy values, all of the values in all capital letters needs to be changed to the appropriate ones!

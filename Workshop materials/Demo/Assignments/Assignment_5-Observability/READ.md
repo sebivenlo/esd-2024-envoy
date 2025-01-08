@@ -1,4 +1,6 @@
-# Assignment 7 - Instructions
+# Assignment 5 - Instructions
+
+Please make sure that your are following the general instructions of this workshop! - https://github.com/sebivenlo/esd-2024-envoy/blob/main/Workshop%20materials/Demo/Assignments/READ.md
 
 Link to Envoy's documentation about Health checking - 
 https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/health_checking.html
