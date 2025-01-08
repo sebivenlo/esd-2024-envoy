@@ -45,3 +45,11 @@ endpoint:
 #### Note, that you need to change the values, according to your proxy!
 
 You need to create four seperate endpoints, one for each of your endpoints with the appropriate adresses and port values.
+
+#### Test
+To test you need to use 
+```
+curl http://localhost:8080/
+```
+This is because as a Layer 4 Proxy, Envoy only manages the TCP connections. It does not know about the specifics of the request. 
+Browser always tries to use the same TCP connection, whereas 'curl', always establishes a new one, every time it is prompted.

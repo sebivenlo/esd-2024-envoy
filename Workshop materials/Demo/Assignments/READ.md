@@ -23,6 +23,9 @@ Test the connection. Go to a client browser / postman, and verify that the proxy
     http://localhost:8080/{different services}
 ```
 Select the desired service you want to test out. Make sure the method you are using - GET/POST is the correct one, otherwise it wouldn't work!
+```yaml
+    http://localhost:8080/
+```
 #### Step 5
 Shutdown the server
 ```yaml
