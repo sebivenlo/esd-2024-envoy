@@ -7,6 +7,20 @@ Link to Envoy's documentation: https://www.envoyproxy.io/docs/envoy/latest/api-v
 ### Steps
 
 #### Step 1
+Add retry policy
+
+Example code snipet structure which should be used 
+```yaml
+                          timeout: VALUE (in seconds)
+                          retry_policy:
+                            retry_on: DIFFERENT TYPES OF RETRIES
+                            num_retries: VALUE
+                            per_try_timeout: VALUE (in seconds)
+```
+
+The retries, values of the attribute 'retry_on', should all be separated by a comma.
+
+#### Step 2
 
 The structure we used for circuit breaker: 
 ```yaml
@@ -22,7 +36,7 @@ You can find what are the default values that envoy gives them from the link on 
 
 However, because of the scale of our workshop and demo in general, most of the values should be considerably lower than the default ones.
 
-#### Step 2 
+#### Step 3 
 
 Change the values to the appropriate ones
 
