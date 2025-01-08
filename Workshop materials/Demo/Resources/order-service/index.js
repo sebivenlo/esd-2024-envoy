@@ -9,14 +9,14 @@ const app = express();
 let isBroken = false; // Flag to toggle service state
 let recoveryTimeout = null; // To manage automatic recovery
 
-app.get("/", (req, res) => {
+app.get("/orders", (req, res) => {
   if (isBroken) {
     return res.status(503).send("Service unavailable");
   }
   res.send(`I am ${SERVICE_NAME} on port ${PORT}`);
 });
 
-app.get("/health", (req, res) => {
+app.get("/orders/health", (req, res) => {
   if (isBroken) {
     return res.status(503).send("Unhealthy");
   }
@@ -24,7 +24,7 @@ app.get("/health", (req, res) => {
 });
 
 // Endpoint to toggle the service state
-app.post("//toggle", async (req, res) => {
+app.post("/orders/toggle", async (req, res) => {
     isBroken = !isBroken;
   
     // If switching to "broken" state, set a timeout for recovery

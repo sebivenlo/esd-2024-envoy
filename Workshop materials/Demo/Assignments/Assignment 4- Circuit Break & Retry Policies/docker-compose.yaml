@@ -4,7 +4,7 @@ services:
   frontend-service:
     build:
       context: ../../Resources/dummy-service
-    container_name: a2-frontend-service
+    container_name: a4-frontend-service
     ports:
       - "3000:3000"
     environment:
@@ -14,7 +14,7 @@ services:
   account-service:
     build:
       context: ../../Resources/dummy-service
-    container_name: a2-account-service
+    container_name: a4-account-service
     ports:
       - "3001:3001"
     environment:
@@ -24,7 +24,7 @@ services:
   product-service:
     build:
       context: ../../Resources/dummy-service
-    container_name: a2-product-service
+    container_name: a4-product-service
     ports:
       - "3002:3002"
     environment:
@@ -34,7 +34,7 @@ services:
   order-service-1:
     build:
       context: ../../Resources/order-service
-    container_name: a2-order-service-1
+    container_name: a4-order-service-1
     ports:
       - "3003:3003"
     environment:
@@ -44,7 +44,7 @@ services:
   order-service-2:
     build:
       context: ../../Resources/order-service
-    container_name: a2-order-service-2
+    container_name: a4-order-service-2
     ports:
       - "3103:3003"
     environment:
@@ -54,7 +54,7 @@ services:
   order-service-3:
     build:
       context: ../../Resources/order-service
-    container_name: a2-order-service-3
+    container_name: a4-order-service-3
     ports:
       - "3203:3003"
     environment:
@@ -62,7 +62,7 @@ services:
       - SERVICE_NAME=Order 3
 
   envoy:
-    container_name: a2-Envoy
+    container_name: a4-Envoy
     image: envoyproxy/envoy:v1.26.0
     user: "0:0"
     volumes:
@@ -79,4 +79,4 @@ services:
       - order-service-2
       - order-service-3
 
-name: envoy_demo_assignment_2
+name: envoy_demo_assignment_4

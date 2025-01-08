@@ -4,7 +4,7 @@ services:
   frontend_v1:
     build:
       context: ../../Resources/dummy-service
-    container_name: a4-frontend_v1
+    container_name: a3-frontend_v1
     ports:
       - "3000:3000"
     environment:
@@ -14,7 +14,7 @@ services:
   frontend_v2:
     build:
       context: ../../Resources/dummy-service
-    container_name: a4-frontend_v2
+    container_name: a3-frontend_v2
     ports:
       - "3100:3000"
     environment:
@@ -24,7 +24,7 @@ services:
   frontend_v3:
     build:
       context: ../../Resources/dummy-service
-    container_name: a4-frontend_v3
+    container_name: a3-frontend_v3
     ports:
       - "3200:3000"
     environment:
@@ -34,7 +34,7 @@ services:
   account-service:
     build:
       context: ../../Resources/dummy-service
-    container_name: a4-account-service
+    container_name: a3-account-service
     ports:
       - "3001:3001"
     environment:
@@ -44,7 +44,7 @@ services:
   product-service:
     build:
       context: ../../Resources/dummy-service
-    container_name: a4-product-service
+    container_name: a3-product-service
     ports:
       - "3002:3002"
     environment:
@@ -54,7 +54,7 @@ services:
   order-service-1:
     build:
       context: ../../Resources/dummy-service
-    container_name: a4-order-service-1
+    container_name: a3-order-service-1
     ports:
       - "3003:3003"
     environment:
@@ -64,7 +64,7 @@ services:
   order-service-2:
     build:
       context: ../../Resources/dummy-service
-    container_name: a4-order-service-2
+    container_name: a3-order-service-2
     ports:
       - "3103:3003"
     environment:
@@ -74,7 +74,7 @@ services:
   order-service-3:
     build:
       context: ../../Resources/dummy-service
-    container_name: a4-order-service-3
+    container_name: a3-order-service-3
     ports:
       - "3203:3003"
     environment:
@@ -82,15 +82,15 @@ services:
       - SERVICE_NAME=Order 3
 
   envoy:
-    container_name: a4-Envoy
+    container_name: a3-Envoy
     image: envoyproxy/envoy:v1.26.0
     user: "0:0"
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
       - ./order-service-health-check.log:/var/log/envoy/order-service-health-check.log
     ports:
-      - "8083:8080"  # Expose Envoy's listener
-      - "9904:9901"  # Admin interface (optional for debugging)
+      - "8080:8080"  # Expose Envoy's listener
+      - "9901:9901"  # Admin interface (optional for debugging)
     depends_on:
       - frontend_v1
       - frontend_v2
@@ -101,4 +101,4 @@ services:
       - order-service-2
       - order-service-3
 
-name: envoy_demo_assignment_4
+name: envoy_demo_assignment_3

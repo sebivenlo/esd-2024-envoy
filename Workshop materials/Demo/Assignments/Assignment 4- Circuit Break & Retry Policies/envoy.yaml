@@ -31,7 +31,6 @@ static_resources:
                       - match: { prefix: "/orders" }
                         route:
                           cluster: order_service
-                          prefix_rewrite: "/"
 
                       # Route to Frontend Service
                       - match: { prefix: "/" }
@@ -85,13 +84,14 @@ static_resources:
       connect_timeout: 0.25s
       type: STRICT_DNS
       lb_policy: ROUND_ROBIN
-      health_checks:
-        - timeout: 2s
-          interval: 10s
-          unhealthy_threshold: 1
-          healthy_threshold: 3
-          http_health_check:
-            path: "/health"
+      # health_checks:
+      #   - timeout: 2s
+      #     interval: 10s
+      #     unhealthy_threshold: 1
+      #     healthy_threshold: 3
+      #     http_health_check:
+      #       path: "/health"
+      # TODO Remove circuit_breaks for the demo and move to solutions
       circuit_breakers:
         thresholds:
           - priority: DEFAULT
