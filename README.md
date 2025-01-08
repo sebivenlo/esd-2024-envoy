@@ -1,10 +1,19 @@
-# ESD template
+# Envoy workshop
 
-Please make sure all artifacts are in this GitHub repository.  
-That includes:
+## Prerequisites
+- Docker / Docker Engine
+- IDE
 
-- Code
-- Workshop materials
-- Presentation (if applicable)
-- References.
-- Docker (compose) file (if applicable)
+## Recommedation
+- Postman Agent 
+
+## Practical Assignments
+[Assignment 1](https://github.com/sebivenlo/esd-2024-envoy/tree/main/Workshop%20materials/Demo/Assignments/Assignment_1-L4_Envoy_Proxy_(TCP))
+
+[Assignment 2](https://github.com/sebivenlo/esd-2024-envoy/tree/main/Workshop%20materials/Demo/Assignments/Assignment_2-L7_Envoy_Proxy-Basic_Setup)
+
+[Assignment 3](https://github.com/sebivenlo/esd-2024-envoy/tree/main/Workshop%20materials/Demo/Assignments/Assignment_3-Advanced_Routing_with_Envoy)
+
+[Assignment 4](https://github.com/sebivenlo/esd-2024-envoy/tree/main/Workshop%20materials/Demo/Assignments/Assignment_4-Circuit_Break_and_Retry_Policies)
+
+[Assignment 5](https://github.com/sebivenlo/esd-2024-envoy/tree/main/Workshop%20materials/Demo/Assignments/Assignment_5-Observability)
