@@ -1,5 +1,7 @@
 # Envoy workshop
 
+## If you want to learn more about topic, you can checkout our reserch [here](https://github.com/sebivenlo/esd-2024-envoy/blob/main/Research/envoyResearch.md) for more detailed information, including all of the links to the specific sources that we used.
+
 ## Prerequisites
 - Docker / Docker Engine
 - IDE
