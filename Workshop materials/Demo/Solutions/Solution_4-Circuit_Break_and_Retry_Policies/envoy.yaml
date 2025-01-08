@@ -31,12 +31,16 @@ static_resources:
                       - match: { prefix: "/orders" }
                         route:
                           cluster: order_service
+                          timeout: 3s
+                          retry_policy:
+                            retry_on: "connect-failure,refused-stream,retriable-status-codes,5xx"
+                            num_retries: 3
+                            per_try_timeout: 2s
 
                       # Route to Frontend Service
                       - match: { prefix: "/" }
                         route:
                           cluster: frontend_service
-                          prefix_rewrite: "/"
 
               http_filters:
                 - name: envoy.filters.http.router

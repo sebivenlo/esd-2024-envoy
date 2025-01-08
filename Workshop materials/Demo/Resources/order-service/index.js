@@ -49,6 +49,7 @@ app.post("/orders/toggle", async (req, res) => {
 // Simulate delay when the service is broken
 app.get("/orders/delayed", (req, res) => {
     setTimeout(() => {
+      console.log(`${SERVICE_NAME} unavailable due to delay`);
       res.status(503).send(`${SERVICE_NAME} unavailable due to delay`);
     }, 10000); // 10 seconds delay
 });
