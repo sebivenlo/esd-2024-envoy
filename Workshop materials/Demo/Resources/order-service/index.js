@@ -11,14 +11,14 @@ let recoveryTimeout = null; // To manage automatic recovery
 
 app.get("/orders", (req, res) => {
   if (isBroken) {
-    return res.status(503).send("Service unavailable");
+    return res.status(503).send(`${SERVICE_NAME} unavailable`);
   }
   res.send(`I am ${SERVICE_NAME} on port ${PORT}`);
 });
 
 app.get("/orders/health", (req, res) => {
   if (isBroken) {
-    return res.status(503).send("Unhealthy");
+    return res.status(503).send(`${SERVICE_NAME} is unhealthy!`);
   }
   res.status(200).send(`${SERVICE_NAME} is healthy!`);
 });
@@ -32,7 +32,7 @@ app.post("/orders/toggle", async (req, res) => {
       // Automatically recover after 30 seconds (or any desired time)
       recoveryTimeout = setTimeout(() => {
         isBroken = false;
-        console.log("Service automatically recovered after timeout");
+        console.log(`${SERVICE_NAME} automatically recovered after timeout`);
       }, 30000);
     } else {
       // If switching to "healthy" state, clear any recovery timeout
@@ -43,18 +43,14 @@ app.post("/orders/toggle", async (req, res) => {
     }
 
     // Respond promptly
-    res.send(`Service is now ${isBroken ? "broken" : "healthy"}`);
+    res.send(`${SERVICE_NAME} is now ${isBroken ? "broken" : "healthy"}.`);
 });
 
 // Simulate delay when the service is broken
-app.get("/delayed", (req, res) => {
-  if (isBroken) {
+app.get("/orders/delayed", (req, res) => {
     setTimeout(() => {
-      res.status(503).send("Service unavailable due to delay");
-    }, 30000); // 30 seconds delay
-  } else {
-    res.send("This is the delayed response endpoint");
-  }
+      res.status(503).send(`${SERVICE_NAME} unavailable due to delay`);
+    }, 10000); // 10 seconds delay
 });
 
 app.listen(PORT, () => {

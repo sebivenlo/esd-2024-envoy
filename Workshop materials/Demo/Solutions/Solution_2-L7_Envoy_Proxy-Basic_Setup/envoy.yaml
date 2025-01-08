@@ -85,14 +85,6 @@ static_resources:
       connect_timeout: 0.25s
       type: STRICT_DNS
       lb_policy: ROUND_ROBIN
-      health_checks:
-        - timeout: 2s
-          interval: 10s
-          unhealthy_threshold: 1
-          healthy_threshold: 3
-          event_log_path: "/var/log/envoy/order-service-health-check.log"
-          http_health_check:
-            path: "/health"
       load_assignment:
         cluster_name: order_service
         endpoints:

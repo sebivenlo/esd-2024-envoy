@@ -67,7 +67,6 @@ services:
     user: "0:0"
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
-      - ./order-service-health-check.log:/var/log/envoy/order-service-health-check.log
     ports:
       - "8080:8080"  # Expose Envoy's listener
       - "9901:9901"  # Admin interface (optional for debugging)

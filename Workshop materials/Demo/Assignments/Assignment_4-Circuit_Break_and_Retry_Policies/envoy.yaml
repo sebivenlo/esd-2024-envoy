@@ -84,13 +84,13 @@ static_resources:
       connect_timeout: 0.25s
       type: STRICT_DNS
       lb_policy: ROUND_ROBIN
-      # health_checks:
-      #   - timeout: 2s
-      #     interval: 10s
-      #     unhealthy_threshold: 1
-      #     healthy_threshold: 3
-      #     http_health_check:
-      #       path: "/health"
+      health_checks:
+        - timeout: 2s
+          interval: 5s
+          unhealthy_threshold: 1
+          healthy_threshold: 3
+          http_health_check:
+            path: "/health"
       # Add circuit breakers
       load_assignment:
         cluster_name: order_service
